@@ -25,19 +25,7 @@ class renameTable extends Command
     /**
      * Execute the console command.
      */
-  /*  public function handle()
-    {
-        $currentTableName = $this->argument('currentTableName');
-        $newTableName = $this->argument('newTableName');
 
-        if (Schema::hasTable($currentTableName)) {
-            Schema::rename($currentTableName, $newTableName);
-            $this->info("Table '$currentTableName' has been renamed to '$newTableName'");
-        } else {
-            $this->error("Table '$currentTableName' does not exist");
-        }
-    }
-*/
 
     public function handle()
     {
@@ -48,9 +36,9 @@ class renameTable extends Command
          */
         $migrationFileName = database_path("migrations");
 
-       /*
-  تُعيد قائمة بجميع الملفات والمجلدات ضمن المسار
-         */
+        /*
+   تُعيد قائمة بجميع الملفات والمجلدات ضمن المسار
+          */
         $files = scandir($migrationFileName);
 
         foreach ($files as $file) {
@@ -74,14 +62,19 @@ class renameTable extends Command
                  * مسار الملف الجديد بعد تعديل الاسم
                  */
                 $newPath = database_path("migrations/{$newFile}");
-
                 if (file_exists($oldPath) && Schema::hasTable($currentTableName)) {
                     rename($oldPath, $newPath);
 
                     // Update the contents of the migration file
                     $contents = file_get_contents($newPath);
-                    $contents = str_replace("Create{$currentTableName}Table", "Create{$newTableName}Table", $contents);
-                    file_put_contents($newPath, $contents);
+                    $newContents = str_replace('Schema::create(\''.$currentTableName.'\'', 'Schema::create(\''.$newTableName.'\'', $contents);
+                   file_put_contents($newPath, $newContents);
+
+                    // Read the modified contents after the first operation
+                    $modifiedContents = file_get_contents($newPath);
+                    $content = str_replace("Schema::dropIfExists('{$currentTableName}');", "Schema::dropIfExists('{$newTableName}');", $modifiedContents);
+                    file_put_contents($newPath, $content);
+
 
                     //update name of table in db
                     Schema::rename($currentTableName, $newTableName);
@@ -94,10 +87,9 @@ class renameTable extends Command
 
                 return;
             }
-
         }
+
         $this->error("Migration file for  '$currentTableName' does not exist.");
 
     }
-
 }

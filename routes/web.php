@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\Relationship\PoymorphicController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +37,7 @@ Route::get('getProfileUser',[PoymorphicController::class,'getProfileUser']);
 Route::get('getProfileUserFilter',[PoymorphicController::class,'getProfileUserFilter']);
 Route::get('hasOneThroughPosts',[PoymorphicController::class,'hasOneThroughPosts']);
 Route::get('m2m',[PoymorphicController::class,'m2m']);
+###############################QUEUE#####################################
+Route::get('processQueue',[JobController::class,'processQueue']);
+################################EVENT###############################
+Route::get('useEvent',[EventController::class,'useEvent']);
