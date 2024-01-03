@@ -67,4 +67,14 @@ class PostsController extends Controller
         return redirect('/posts')->with('success', 'Post was deleted');
     }
 
+    public function delete(Post $post)
+    {
+        if (auth()->user()->can('delete', $post)) {
+
+         $post->delete();
+
+        } else {
+            return abort(403);
+        }
+    }
 }
