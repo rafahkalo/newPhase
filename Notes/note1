@@ -1,0 +1,8 @@
+1) added 2 commands ->1: generate users
+                 ->2: update name of table in db + its name migration
+
+2) add controller for relationship and polymorphic
+
+3) added send message to email using mailtrap with queue
+
+4) added event and listener
