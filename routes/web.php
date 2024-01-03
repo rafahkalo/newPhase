@@ -5,6 +5,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\Relationship\PoymorphicController;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Pusher\Pusher;
 
@@ -65,3 +66,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('users/{user}/unfollow', [FollowerController::class,'unfollow'])->name('unfollow');
     Route::get('notifications', [FollowerController::class,'showingNotifications']);
 });
+
+#################### GATE AND POLICIES ###################
+
+Route::get('candelete/{post}', [PostsController::class,'delete'])->middleware('can:delete,post');
+
+
+Route::get('/testGate', function () {
+    if (Gate::allows('isAdmin')) {
+
+        dd('Admin allowed');
+
+    } else {
+
+        dd('You are not Admin');
+
+    }
+})->middleware('can:isAdmin');
