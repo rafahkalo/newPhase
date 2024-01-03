@@ -83,3 +83,4 @@ Route::get('/testGate', function () {
 
     }
 })->middleware('can:isAdmin');
+Route::view('test','test');

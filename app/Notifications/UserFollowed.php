@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserFollowed extends Notification
+class UserFollowed extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -25,7 +25,7 @@ class UserFollowed extends Notification
 
     public function via($notifiable)
     {
-        return ['database','broadcast'];
+        return ['database', 'mail', 'broadcast'];
     }
 
     public function toBroadcast($notifiable)

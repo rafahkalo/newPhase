@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -29,6 +29,7 @@
         .dropdown-content li {
             list-style-type: none;
             padding: 8px 0;
+
         }
 
         .show {
@@ -74,13 +75,20 @@
                         @endif
 
                     @else
+
+
                         <i id="notificationIcon" style='font-size:24px; margin-right: 0px; margin-top: 5px;' class='fas'>&#xf0f3;</i>
                         <span style="color: #0a58ca " class="badge badge-light">{{auth()->user()->notifications->count()}}</span>
 
                         <ul id="notificationDropdown"  class="dropdown-content">
                             <li>Notification 1</li>
                             <li>Notification 2</li>
+                            @foreach(auth()->user()->notifications as $noti)
+                                <li>{{$noti->data['follower_name'] .' is follow you'}}</li>
+                            @endforeach
                         </ul>
+
+
 
                         <script>
                             document.getElementById("notificationIcon").addEventListener("click", function() {
@@ -91,15 +99,37 @@
                                 var dropdown = document.getElementById("notificationDropdown");
                                 dropdown.classList.toggle("show");
                             }
-
-                            function fetchNotifications() {
-                                // Use AJAX to fetch new notifications from the server
-                                // Update the notification dropdown with the new notifications
-                            }
                         </script>
+
+
+                        <li class="nav-item dropdown">
+
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>
     </nav>
+    <main class="py-4">
+        @yield('content')
+    </main>
 </div>
 
+</body>
+</html>
