@@ -103,7 +103,6 @@ class FollowerController extends Controller
             echo "User not authenticated.";
         }
     }
-
     public function makeNotificationAsRead()
     {
         $user = User::find(3);

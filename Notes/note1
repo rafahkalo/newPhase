@@ -6,3 +6,5 @@
 3) added send message to email using mailtrap with queue
 
 4) added event and listener
+
+5) added send notification to mailtrap and database
