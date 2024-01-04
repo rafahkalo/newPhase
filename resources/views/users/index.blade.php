@@ -6,7 +6,6 @@
             {{ session('success') }}
         </div>
     @endif
-
     <style>
 
         .alert-success {
